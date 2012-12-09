@@ -7,7 +7,12 @@ var X = X || {};
 X.getCookie = enyo.getCookie;
 
 (function () {
-  var h = window.DOCUMENT_HOSTNAME = document.location.hostname, p = document.location.protocol;
+  // note that this maps the global DOCUMENT_HOSTNAME that is later
+  // used by the datasource
+  var hostname = window.DOCUMENT_HOSTNAME = document.location.hostname;
+  var protocol = document.location.protocol;
+  var port = document.location.port;
+  
   window.relocate = function () {
     if (window.onbeforeunload) {
       // if we've set up a "are you sure you want to leave?" warning, disable that
@@ -15,6 +20,6 @@ X.getCookie = enyo.getCookie;
       // delete window.onbeforeunload; // doesn't work
       window.onbeforeunload = undefined;
     }
-    document.location = "%@//%@/login".f(p,h);
+    document.location = "%@//%@%@/login".f(protocol, hostname, port? ":%@".f(port): "");
   };
 }());
