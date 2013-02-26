@@ -14,23 +14,14 @@ regexp:true, undef:true, strict:true, trailing:true, white:true */
     readContact_FFnC = require('./lib/readContactForFFnC.js'),
     readContact_Android = require('./lib/readContactForAndroid.js'),
     readContact_FFonWin8 = require('./lib/readContactForFFonWin8.js'),
+    deleteContact_Android = require('./lib/deleteContactForAndroid.js'),
     time = require('./lib/utils.js'),
     sldriver = webdriver.remote(
       "ondemand.saucelabs.com",
       80,
       loginData.data.suname,
       loginData.data.sakey),
-    desiredcaps = require('./environments.js'),
-    browserdriver = webdriver.remote();
-  browserdriver.on('status', function (info) {
-    time.getDate(function (date) {
-      console.log(date);
-      console.log('\x1b[36m%s\x1b[0m', info);
-    });
-  });
-  browserdriver.on('command', function (meth, path) {
-    console.log(' > \x1b[33m%s\x1b[0m: %s', meth, path);
-  });
+    desiredcaps = require('./environments.js');
   sldriver.on('status', function (info) {
     time.getDate(function (date) {
       console.log(date);
@@ -41,23 +32,22 @@ regexp:true, undef:true, strict:true, trailing:true, white:true */
     console.log(' > \x1b[33m%s\x1b[0m: %s', meth, path);
   });
   module.exports = {
-    'chrome on Ubuntu' : function (test1) {
+    'chrome on Windows 7' : function (test1) {
       console.log('starting first test on chrome');
       starttest(desiredcaps.caps[0], 'user1', test1);
     },
-    'firefox on Ubuntu' : function (test2) {
+    'firefox on Windows 8' : function (test2) {
       console.log('starting second test on firefox');
       starttest(desiredcaps.caps[1], 'user2', test2);
     },
-    'chrome on Mac' : function (test3) {
+    'Android on linux' : function (test3) {
       console.log('starting third test on Android');
       starttest(desiredcaps.caps[2], 'user3', test3);
-    }
+     }
   };
   var starttest = function (caps, fname, test) {
     try {
-      if ((caps.platform === "Windows XP") || (caps.platform === "Windows 7") || (caps.platform === "Ubuntu")) {
-        if ((caps.browserName === "firefox") || (caps.browserName === "chrome")) {
+      if ((caps.browserName === "firefox") || (caps.browserName === "chrome") || (caps.browserName === "internet explorer") || (caps.browserName === "safari")) {
           login.login(sldriver, caps, test, function (sldriver, test) {
             createContact_FFnC.createContact(sldriver, test, fname, function (sldriver, test) {
               readContact_FFnC.readContact(sldriver, test, fname, function (sldriver, test) {
@@ -70,76 +60,61 @@ regexp:true, undef:true, strict:true, trailing:true, white:true */
               });
             });
           });
-        }
       }
-      else if ((caps.platform === "Linux") || (caps.platform === "Mac 10.6") || (caps.platform === "Mac 10.8") || (caps.platform === "Windows 8")) {
-        if (caps.platform === "Windows 8") {
-          login.login(sldriver, caps, test, function (sldriver, test) {
-            createContact_FFonWin8.createContact(sldriver, test, fname, function (sldriver, test) {
-              readContact_FFonWin8.readContact(sldriver, test, fname, function (sldriver, test) {
-                setTimeout(function () {
-                  sldriver.quit();
-                  setTimeout(function () {
-                    test.done();
-                  }, 2000);
-                }, 2000);
-              });
+      else if (caps.browserName === "android") {
+        login.login(sldriver, caps, test, function (sldriver, test) {
+          createContact_Android.createContact(sldriver, test, fname, function (sldriver, test) {
+            readContact_Android.readContact(sldriver, test, fname, function (sldriver, test) {
+              setTimeout(function () {
+                sldriver.quit();
+                deleteContact(caps,fname,test);
+              }, 2000);
             });
           });
-        }
-        else {
-          if ((caps.browserName === "firefox") || (caps.browserName === "chrome") || (caps.browserName === "internet explorer") || (caps.browserName === "safari")) {
-            login.login(sldriver, caps, test, function (sldriver, test) {
-              createContact_FFnC.createContact(sldriver, test, fname, function (sldriver, test) {
-                readContact_FFnC.readContact(sldriver, test, fname, function (sldriver, test) {
-                  setTimeout(function () {
-                    sldriver.quit();
-                    setTimeout(function () {
-                      test.done();
-                    }, 2000);
-                  }, 2000);
-                });
-              });
+        });
+      }
+      else if ((caps.browserName === "iphone") || (caps.browserName === "ipad")) {
+        login.login(sldriver, caps, test, function (sldriver, test) {
+          createContact_Iphone.createContact(sldriver, test, fname, function (sldriver, test) {
+            readContact_Iphone.readContact(sldriver, test, fname, function (sldriver, test) {
+              setTimeout(function () {
+                sldriver.quit();
+                setTimeout(function () {
+                  test.done();
+                }, 2000);
+              }, 2000);
             });
-          }
-          else if (caps.browserName === "android") {
-            login.login(sldriver, caps, test, function (sldriver, test) {
-              createContact_Android.createContact(sldriver, test, fname, function (sldriver, test) {
-                readContact_Android.readContact(sldriver, test, fname, function (sldriver, test) {
-                  setTimeout(function () {
-                    sldriver.quit();
-                    setTimeout(function () {
-                      test.done();
-                    }, 2000);
-                  }, 2000);
-                });
-              });
-            });
-          }
-          else if ((caps.browserName === "iphone") || (caps.browserName === "ipad")) {
-            login.login(sldriver, caps, test, function (sldriver, test) {
-              createContact_Iphone.createContact(sldriver, test, fname, function (sldriver, test) {
-                readContact_Iphone.readContact(sldriver, test, fname, function (sldriver, test) {
-                  setTimeout(function () {
-                    sldriver.quit();
-                    setTimeout(function () {
-                      test.done();
-                    }, 2000);
-                  }, 2000);
-                });
-              });
-            });
-          }
-          else
-          {
-            console.log('No valid browser');
-          }
-        }
+          });
+        });
+      }
+      else
+      {
+        console.log('No valid browser');
       }
     }
     catch (e) {
       console.log('Exception in starting test' + e);
     }
   };
+  var deleteContact = function (caps, fname, test) {
+    caps = { browserName: 'firefox', 
+      version: '19',
+      platform: 'Windows 2012',
+      tags: ["delete contact"],
+      name: "Delete contact on Firefox and Windows 8"
+    };
+    login.login(sldriver, caps, test, function (sldriver, test) {
+      deleteContact_Android.deleteContact(sldriver, test, fname, function (sldriver, test) {
+        setTimeout(function () {
+          sldriver.quit();
+          setTimeout(function () {
+            test.done();
+          }, 2000);
+        }, 2000);
+      });
+    });
+  };
 }());
+
+
     

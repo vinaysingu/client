@@ -47,7 +47,10 @@ exports.Obj = {
   contactmname2_xpath : "//*[@id='app_postbooks_workspaceContainer2_workspace_inputWidget3_input']",
   backButton_xpath : ".//*[@id='app_postbooks_workspaceContainer2_backButton']",
   contactsHeading_xpath : ".//*[@id='app_postbooks_navigator_rightLabel'][contains(text(),'Contacts')]",
-  
+  readContact_xpath : ".//*[@id='app_postbooks_navigator_contentPanels_contactList_listAttr'][contains(text(),'" ,
+  deleteContactItem_xpath : ".//*[@id='app_postbooks_navigator_contentPanels_contactList_listItem']",
+  deleteContactButton_xpath : ".//*[@id='app_postbooks_navigator_contentPanels_contactList_listItem_deleteButton']",
+  deleteOkButton_xpath: ".//*[@id='app_postbooks_navigator_button5']"
 } 
 exports.readObj1 = {
   crmlink_xpath : "//div[contains(text(),'CRM')]",

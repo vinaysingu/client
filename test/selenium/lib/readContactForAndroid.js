@@ -176,31 +176,9 @@ regexp:true, strict:true, trailing:true, white:false*/
   }
   browser.elementByXPath(contactObj.readObj1.backButton_xpath, function (err, el31) {
   browser.clickElement(el31, function () {
-  /*utils.results('**** Deleting the contact ****');
-  utils.pause(6000, function () {
-  browser.elementByXPath(contactObj.readObj1.deleteContactButton_xpath, function (err, el34) {
-  browser.clickElement(el34, function () {
-  utils.pause(2000, function () {
-  browser.elementByXPath(contactObj.readObj1.deleteOkButton_xpath, function (err, el35) {
-  browser.clickElement(el35, function () {
-  utils.pause(5000, function () {
-  browser.hasElementByXPath(readContactObj, function (err, flag2) {
-  if (flag2) {
-    test.ok(false, 'Contact deletion failed');
-    utils.results('Contact not deleted');
-  }
-  else {
-    test.ok(true, 'contact deleted successfully');
-    utils.results('contact deleted sucessfully');
-  }
   utils.pause(2000, function () {
   callback(browser, test);
-  });
-});});});});});});});});});*/
-  utils.pause(2000, function () {
-  callback(browser, test);
-  });
-});});});});});});});});});});});});});});});});});});});});});});});});});});});});});});});});});});});});});});});
-  });});});});});});});});});});});});});});});});});});});});});};
+  });});});});});});});});});});});});});});});});});});});});});});});});});});});});});});});});});});});});});});});});});
+  });});});});});});});});});});});});});});});});});});});});};
 }());
 

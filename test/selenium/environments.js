@@ -1,21 +1,19 @@
 exports.caps = [
   { browserName: 'chrome', 
-    browserVersion: ' ',
-    osname: ' ',
-    platform: 'Windows 7',
+    version: ' ',
+    platform: 'Mac 10.8',
     tags: ["selenium test"],
-    name: "CRUD contact on Chrome and Windows 8"
+    name: "CRUD contact on Chrome and Windows 7"
     },
   { browserName: 'firefox', 
-    browserVersion: ' ',
-    osname: ' ',
-    platform: 'Windows 8',
+    version: '19',
+    platform: 'Windows 2012',
     tags: ["selenium test"],
-    name: "CRUD contact on Firefox and Windows 8"
+    name: "CRUD contact on Firefox and Windows 8",
+    "screen-resolution": "1280x1024"
     },
   { browserName: 'android',
-    browserVersion: '4',
-    osname: ' ',
+    version: '4',
     platform: 'Linux',
     tags: ["selenium test"],
     name: "CRU contact on  android"
