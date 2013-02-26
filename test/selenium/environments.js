@@ -1,7 +1,7 @@
 exports.caps = [
   { browserName: 'chrome', 
     version: ' ',
-    platform: 'Mac 10.8',
+    platform: 'Windows 7',
     tags: ["selenium test"],
     name: "CRUD contact on Chrome and Windows 7"
     },
